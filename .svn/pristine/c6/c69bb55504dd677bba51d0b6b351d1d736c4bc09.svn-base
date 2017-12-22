@@ -1,0 +1,54 @@
+@import "~css/styles.less";
+
+.c-nav {
+    width: 16%;
+    height: @excludeHeaderHig;
+    max-width: 250px;
+    float: left;
+    color: @fontWhite;
+    .transition(all, .5s, ease);
+    overflow: hidden;
+    position: relative;
+
+    &_wrap {
+        padding: 20px 10px;
+    }
+    &_item {
+        cursor: pointer;
+
+        &:hover {
+            background-color: @navHoverBg;
+        }
+    }
+    &_icon {
+        display:inline-block;
+        width: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        vertical-align: middle;
+        border-radius: 50%;
+        text-align: center;
+        border: 3px solid #fff;
+        font-weight: bold;
+    }
+    &_txt {
+        margin-left: 20px;
+    }
+    &_sub {
+        text-align: center;
+        background-color: @navSubBg;
+        padding-top: 10px; padding-bottom: 10px;
+
+        & + & {
+            border-top: 1px dashed @navSubLine;
+        }
+    }
+
+    &-mini {
+        width: auto;
+
+        .c-nav_txt {
+            display: none;
+        }
+    }
+}

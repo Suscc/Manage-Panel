@@ -1,0 +1,33 @@
+@import '~css/styles.less';
+
+.c-loginLayer {
+    text-align: center;
+    height: 100%;
+
+    .g-mainBg();
+    .ie7va(~'.c-loginLayer_main', ~'.c-loginLayer_vLine');
+
+    .f-centerAlign(~'.pic_code');    
+
+    &_logo {
+        .inline-block;
+        margin-bottom: 80px;
+    }
+    &_btn {
+        width: 100%;
+        height: @snowInputHig;
+        background-color: #fee2d1;
+        color: @mainColor;
+        border-radius: @radius;
+        font-size: 16px;
+        margin-top: 20px;
+        border: 0;
+    }
+    .help-block{ 
+        color: red; 
+        font-size: 12px; 
+        margin-top:10px; 
+        position: absolute; 
+        right: 0;
+    }
+}

@@ -1,0 +1,26 @@
+// 默认字
+.g-tx() {
+    font-size: @fontSize;
+    color: @fontColor;
+}
+// 小号字
+.g-tx-sm() {
+    font-size: @fontSize-sm;
+    color: @fontColor-sm;
+}
+// 白色字
+.g-tx-white() {
+    color: @fontWhite;
+}
+.g-mainBg() {
+    background-image: linear-gradient(45deg, @mainColor 0%, @bg2 100%);
+    background-color: @mainColor;
+}
+
+.l-viewWrap-detail {
+    text-align: center;
+}
+.l-inputGroup {
+    .inline-block;
+    text-align: left;
+}

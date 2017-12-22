@@ -1,0 +1,56 @@
+<div class="c-view">
+  <table class="c-table c-table-haveFooter">
+      <thead>
+          <tr>
+              <th><input type="checkbox"></th>
+              <th>编号</th>
+              <th>学生姓名</th>
+              <th>班级</th>
+              <th>入学日期</th>
+              <th>操作</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><input type="checkbox"></td>
+              <td>233</td>
+              <td>苏成闯</td>
+              <td>2年23班</td>
+              <td>
+                  <span class="c-table_multiple">盘古开天时</span>
+              </td>
+              <td>
+                  <button class="c-button" disabled>别闹</button>
+              </td>
+          </tr>
+          <tr>
+              <td><input type="checkbox"></td>
+              <td>233</td>
+              <td>苏成闯</td>
+              <td>2年23班</td>
+              <td>盘古开天时</td>
+              <td>
+                  <button class="c-button">别闹</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+
+  <div class="tableList_footer">
+    <g-page-num [class]="{
+                          'c-pageNum-startEnd': true,
+                          'c-pageNum-right': true,
+                          'c-pageNum-spac': true
+                        }"
+                [process]="listTest" [current]="pageNum" [total]="totalPageNum"
+    >
+    </g-page-num>
+
+    <div class="c-button¯cen">
+      <button class="c-button c-button-spacT">添加</button>
+      <button class="c-button c-button-spacT">删除</button>
+      <button class="c-button c-button-spacT">关闭</button>
+      <button class="c-button c-button-spacT">{{ test }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+import { Injectable, EventEmitter, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class ReloadService {
+
+    routerReload = new EventEmitter<any>();
+
+    constructor(private router: Router) {
+        this.routerReload.subscribe((url?: string) => this.router.navigate(['/11111']).then(() => this.router.navigate([url])));
+    }
+}
+
+@Injectable()
+export class LogOutService {
+
+    logOut = new EventEmitter<any>();
+
+    constructor(private router: Router) {
+
+        this.logOut.subscribe(() => {
+            this.router.navigateByUrl('/login').then(() => {
+                environment.isLogin = false;
+                localStorage.removeItem('userToken');
+                environment.token = '';
+            });
+        });
+    }
+}

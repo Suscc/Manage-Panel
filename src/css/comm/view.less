@@ -1,0 +1,30 @@
+// 视图组件
+.c-view {
+  @footerPadT: 20px;
+  @footerHig: 35px + @footerPadT;
+
+  height: 100%;
+
+  &_body {
+    // padding-bottom: @footerHig;
+    overflow: auto;
+    max-height: 100%;
+
+    &:after {
+      content: '';
+      display: block;
+      height: @footerHig;
+    }
+  }
+  &_footer {
+    height: @footerHig;
+    margin-top: -@footerHig;
+    padding-top: @footerPadT;
+    position: relative;
+    background-color: @viewBg;
+  }
+
+  &-cen {
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+<div class="c-select" [ngClass]="class">
+  <input class="c-input" type="text" disabled placeholder="Test" [ngClass]="inputClass">
+  <div class="c-select_control">
+    <span class="c-select_arr"></span>
+  </div>
+  <div class="c-select_optionWrap">
+    <ul>
+      <li class="c-select_option">
+        <span class="c-select_txt">Test</span>
+      </li>
+      <li class="c-select_option">Test1</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+import { Component, Input, OnInit, Output } from '@angular/core';
+
+interface tabs {
+  title: string;
+  href: string;
+}
+
+@Component({
+  selector: 'g-page-num',
+  templateUrl: './pageNum.component.html',
+  styleUrls: ['./pageNum.component.less']
+})
+export class PageNumComponent {
+  @Input() private class: object;
+}

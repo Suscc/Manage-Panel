@@ -1,0 +1,13 @@
+<div class="searchPanel searchPanel-searchInternal" [@visibility] = "visibility"
+    (click)="$event.stopPropagation()">
+    <h3 class="searchPanel_tit">高级搜索面板
+        <span class="i-close-img" (click)="searchPanelDis = false"></span>
+    </h3>
+    <div class="searchPanel_view" [ngStyle]="{ 'height': height }" g-scroll></div>
+
+    <div class="c-controlArea-spacing-align">
+        <button class="c-button-search" (click)="confirm()">提交</button>
+        <button class="c-button-search" (click)="recovery()" *ngIf="recoveryDis">清空</button>
+        <button class="c-button-search" (click)="closePanel()">关闭</button>
+    </div>
+</div>

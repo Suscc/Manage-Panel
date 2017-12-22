@@ -1,0 +1,32 @@
+<div class="c-tabBar">
+    <div class="c-tabBar_last">
+        <span></span>
+    </div>
+    <div class="c-tabBar_mainWrap c-tabBar_item">
+        <ul class="c-tabBar_main">
+                <li class="c-tabBar_tab c-tabBar_item" *ngFor="let i of list">
+                    <div class="c-tabBar_tab_con">
+                        {{ i.title }} <span class="c-tabBar_close"></span>
+                    </div>
+                </li>
+                <!-- <li class="c-tabBar_tab c-tabBar_item c-tabBar_tab-active">
+                    <div class="c-tabBar_tab_con">
+                        Test0 <span class="c-tabBar_close c-tabBar_close-active"></span>
+                    </div>
+                </li> -->
+                <!-- <li class="c-tabBar_tab c-tabBar_item">Test</li>
+                <li class="c-tabBar_tab c-tabBar_tab-active c-tabBar_item">Test0</li>
+                <li class="c-tabBar_tab c-tabBar_item">Test1</li>
+                <li class="c-tabBar_tab c-tabBar_item">Test</li>
+                <li class="c-tabBar_tab c-tabBar_tab-active c-tabBar_item">Test0</li>
+                <li class="c-tabBar_tab c-tabBar_item">Test1</li> -->
+        </ul>
+    </div>
+    <div class="c-tabBar_next">
+        <span></span>
+    </div>
+    <div class="c-tabBar_closeAll c-tabBar_item">关闭全部</div>
+    <div class="c-tabBar_search">
+        <span class="i-search"></span>
+    </div>
+</div>

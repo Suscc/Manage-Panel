@@ -1,0 +1,396 @@
+/*
+    白梦超
+    20160408
+*/
+// @body_color:#fff;//背景颜色
+// @font_size: 14px; //默认字体大小（包括链接）
+// @font_color: #333; //默认字体颜色（包括链接）
+// @font_color_white: #fff; //默认字体颜色（包括链接）
+// @font_gray: #666;//灰色字体
+// @font_gray2: #999;//灰色字体2
+// @font_family: "微软雅黑", "Arial"; //默认字体（包括链接）
+// @content_width: 1200px; //版心宽度
+// @line_color: #e3e3e3;
+// @buttonMain_color: #fc6719;
+// @main_radius: 6px;
+
+@heartWid: 1200px;
+
+@fontFamily: "微软雅黑", "Arial";
+@fontSize: 14px;
+@fontColor: #333;
+@fontSize-sm: 12px;
+@fontColor-sm: #999;
+@fontWhite: #fff;
+
+@radius: 6px;
+
+@mainColor: #ff5700;
+@bg2: #f1991a;
+
+@navHoverBg: #ffa82b;
+@navSubBg: #ed5101;
+@navSubLine: #ff955d;
+
+@navControlHover: @navHoverBg;
+
+@snowInputHig: 45px;
+@buttonHover: #ff5700;
+@buttonFocus: #e85000;
+@buttonDisBg: #999;
+
+@headerHig: 50px;
+@tabBarHig: 40px;
+@copyrightHig: 30px;
+
+@excludeHeaderHig: ~'calc(100vh - @{headerHig})';
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: @fontSize;
+    font-family: @fontFamily;
+    color: @fontColor;
+}
+
+h1, h2, h3, h4, h5, h6, hr, p, ul, li, form, th, td, div,dl,dt,dd, figure, figcaption, input, textarea, button, label, table, thead, tbody {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    word-break: break-all;
+    vertical-align: middle;
+
+    /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+    &::-webkit-scrollbar{
+        width: 7px;
+        background-color: #f5f5f5;
+    }
+    /*定义滚动条的轨道，内阴影及圆角*/
+    &::-webkit-scrollbar-track{
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        border-radius: 10px;
+        background-color: #f5f5f5;
+    }
+    /*定义滑块，内阴影及圆角*/
+    &::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+}
+
+table {
+    border-collapse:collapse;
+
+    th {
+        font-weight: normal;
+    }
+}
+
+select {
+    outline: none;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    border: none;
+    height: auto;
+    max-width: 100%;
+    /* ie8 */
+    -ms-interpolation-mode: bicubic; //为了照顾ie图片缩放失真
+}
+
+input:focus {
+    outline: none;
+}
+
+//Mixins 混入
+// 清除浮动
+.clear(){
+    content:'.';
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.verticalLastRow {
+    .inline-block;
+
+    width: 100%; height: 0;
+    overflow: hidden;
+}
+
+// 雪碧图
+.bps (@fp_att; @p: 0 0; @s: auto) {
+    background: url("/images/sprite@{fp_att}.png") @p no-repeat;
+    background-size: @s;
+}
+// 雪碧图
+.bp (@fp_att; @p: 0 0;) {
+    background: url("/images/sprite@{fp_att}.png") @p no-repeat;
+}
+
+// IE7 下 vertical-align 垂直居中
+.ie7va(@element; @references; @opt: 0) when (@opt = 0) {
+    // 基线校准
+    font-size: 0;
+
+    @{element}, @{references} {
+        display: inline-block;
+        *zoom: 1;
+        *display: inline;
+        vertical-align: middle;
+    }
+
+    @{references} {
+        height: 100%;
+    }
+}
+.ie7va(@element; @references; @opt: 0) when (@opt = 1) {
+    // 基线校准
+    font-size: 0;
+
+    @{element}, @{references} {
+        vertical-align: middle;
+    }
+
+    @{references} {
+        display: inline-block;
+        *zoom: 1;
+        *display: inline;
+        height: 100%;
+    }
+    }
+.ie7va(@element; @references; @opt: 0) when (@opt = 2) {
+    // 基线校准
+    font-size: 0;
+
+    @{element}, @{references} {
+        vertical-align: middle;
+    }
+
+    @{element} {
+        display: inline-block;
+        *zoom: 1;
+        *display: inline;
+    }
+
+    @{references} {
+        height: 100%;
+    }
+}
+
+.creatArrow(@w; @c; @c2; @t; @l) {
+    position: relative;
+    .inline-block;
+
+    .main(@o) {
+        border-width: @w;
+        border-color: @o;
+        border-style: solid;
+    }
+    .main(@c);
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: @t; left: @l;
+
+        .main(@c2);
+    }
+}
+.creatArrow(@type; @h; @w; @c; @c2; @t: 2; @l: 0) when (@type = bottom) {
+    @wHalf: @w / 2;
+
+    .creatArrow(@h @wHalf 0; @c transparent transparent transparent; @c2 transparent transparent transparent; -(@h + @t); -(@wHalf + @l));
+}
+.creatArrow(@type; @h; @w; @c; @c2; @t: 2px; @l: 0) when (@type = top) {
+    @wHalf: @w / 2;
+
+    .creatArrow(0 @wHalf @h; transparent transparent @c transparent; transparent transparent @c2 transparent; @t; -@wHalf);
+}
+.creatArrow(@type; @h; @w; @c; @c2; @t: 0; @l: 0) when (@type = left) {
+    @hHalf: @h / 2;
+
+    .creatArrow(@hHalf @w @hHalf 0; transparent @c transparent transparent; transparent @c2 transparent transparent; -@hHalf; @l);
+}
+.creatArrow(@type; @h; @w; @c; @c2; @t: 0; @l: 0) when (@type = right) {
+    @hHalf: @h / 2;
+
+    .creatArrow(@hHalf 0 @hHalf @w; transparent transparent transparent @c; transparent transparent transparent @c2; -(@hHalf + @t); -(@w + @l));
+}
+
+.f-centerAlign(@ele; @type: XY) {
+    position: relative;
+
+    @{ele} {
+        position: absolute;
+        top: 50%; left: 50%;
+        .transform(translateX(-50%) translateY(-50%));
+    }
+}
+.f-centerAlign(X; @ele;) {
+    position: relative;
+
+    @{ele} {
+        position: absolute;
+        left: 50%;
+        .transform(translateX(-50%) );
+    }
+}
+.f-centerAlign(Y; @ele;) {
+    position: relative;
+
+    @{ele} {
+        position: absolute;
+        top: 50%;
+        .transform(translateY(-50%));
+    }
+}
+
+.fixJustify {
+    .inline-block;
+    width: 100%;
+}
+
+// inline-block
+.inline-block() {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+}
+
+//圆角
+.border-radius(@radius: 5px) {
+    border-radius: @radius;
+}
+
+// 阴影
+.box-shadow(@style,
+@c) when (iscolor(@c)) {
+    -webkit-box-shadow: @style @c;
+    box-shadow: @style @c;
+}
+
+.box-shadow(@style,
+@alpha: 50%) when (isnumber(@alpha)) {
+    .box-shadow(@style,
+    rgba(0, 0, 0, @alpha));
+}
+
+//clear
+.clear(@direction: both) {
+    clear: @direction;
+}
+
+// filter
+.filter(@style: blur(0px)) {
+    filter: @style;
+    -webkit-filter: @style;
+    -o-filter: @style;
+    -moz-filter: @style;
+    -ms-filter: @style;
+}
+
+// perspective
+.perspective(@distance: 200vw,
+@origin-x: center,
+@origin-y: center) {
+    perspective: @distance;
+    -webkit-perspective: @distance;
+    -moz-perspective: @distance;
+    -o-perspective: @distance;
+    -ms-perspective: @distance;
+    perspective-origin: @origin-x @origin-y;
+    -webkit-perspective-origin: @origin-x @origin-y;
+    -moz-perspective-origin: @origin-x @origin-y;
+    -o-perspective-origin: @origin-x @origin-y;
+    -ms-perspective-origin: @origin-x @origin-y;
+}
+
+// transform-style
+.transform-style(@style: preserve-3d,
+@origin-x: center,
+@origin-y: center) {
+    transform-style: @style;
+    -webkit-transform-style: @style;
+    -moz-transform-style: @style;
+    -o-transform-style: @style;
+    -ms-transform-style: @style;
+    transform-origin: @origin-x @origin-y;
+    -webkit-transform-origin: @origin-x @origin-y;
+    -moz-transform-origin: @origin-x @origin-y;
+    -o-transform-origin: @origin-x @origin-y;
+    -ms-transform-origin: @origin-x @origin-y;
+}
+
+//transition
+.transition(@property: all,
+@duration: 2s,
+@timing-function: linear,
+@delay: 0s) {
+    transition: @property @duration @timing-function @delay;
+    -ms-transition: @property @duration @timing-function @delay;
+    -moz-transition: @property @duration @timing-function @delay;
+    -webkit-transition: @property @duration @timing-function @delay;
+    -o-transition: @property @duration @timing-function @delay;
+}
+
+//transform
+.transform(@t: rotatex(0deg)) {
+    transform: @t;
+    -ms-transform: @t;
+    -moz-transform: @t;
+    -webkit-transform: @t;
+    -o-transform: @t;
+}
+
+//transform
+.transform(@t: rotatez(0deg)) {
+    transform: @t;
+    -ms-transform: @t;
+    -moz-transform: @t;
+    -webkit-transform: @t;
+    -o-transform: @t;
+}
+
+//animation
+.animation(@animation-name: name, @animation-duration: 2s, @animation-delay: 0s, @animation-iteration-count: 1, @animation-timing-function: linear, @animation-fill-mode: forwards, @animation-direction: normal) {
+    animation-name: @animation-name;
+    animation-duration: @animation-duration;
+    animation-iteration-count: @animation-iteration-count;
+    animation-timing-function: @animation-timing-function;
+    animation-fill-mode: @animation-fill-mode;
+    animation-delay: @animation-delay;
+    animation-direction: @animation-direction;
+    -webkit-animation-name: @animation-name;
+    -webkit-animation-duration: @animation-duration;
+    -webkit-animation-iteration-count: @animation-iteration-count;
+    -webkit-animation-timing-function: @animation-timing-function;
+    -webkit-animation-fill-mode: @animation-fill-mode;
+    -webkit-animation-delay: @animation-delay;
+    -webkit-animation-direction: @animation-direction;
+    -moz-animation-name: @animation-name;
+    -moz-animation-duration: @animation-duration;
+    -moz-animation-iteration-count: @animation-iteration-count;
+    -moz-animation-timing-function: @animation-timing-function;
+    -moz-animation-fill-mode: @animation-fill-mode;
+    -moz-animation-delay: @animation-delay;
+    -moz-animation-direction: @animation-direction;
+}

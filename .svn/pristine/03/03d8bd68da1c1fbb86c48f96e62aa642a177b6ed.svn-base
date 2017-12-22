@@ -1,0 +1,392 @@
+import {
+  Component, ElementRef, ViewChild, SimpleChanges, Input, NgModule, NgZone,
+  OnInit, AfterViewInit, AfterContentInit, OnChanges,
+  Pipe, PipeTransform,
+} from '@angular/core';
+import { Router, RoutesRecognized, NavigationEnd, ActivatedRoute, Routes, RouterModule, NavigationStart } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+import { SearchService } from '@framework/Component/Search/search.component';
+import { animate, trigger, state, style, transition, keyframes } from '@angular/animations';
+import { CommHeaderComponent } from '@framework/Component/Header/header.component';
+import { LoadingComponent, LoadingService } from '@framework/Component/Loading/loading.component';
+import { NavigationService } from '@framework/Component/Navigation/navigation.component';
+import { TabsComponent, TabsHooks } from '@framework/Component/Tabs/tabs.component';
+import { FormSelectorComponent } from '@framework/Component/FormSelector/selector.component';
+import { ReloadService, LogOutService } from '@framework/Service/control.service.ts';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/pairwise';
+import swal from 'sweetalert2';
+import { Handler } from '@framework/Utils/Handler';
+import { environment } from 'environments/environment';
+
+declare var jquery: any;
+declare var $: any;
+declare var layer: any;
+
+
+@Component({
+
+  selector: 'index',
+  templateUrl: './index.html',
+  styleUrls: ['./index.less']
+})
+
+export class Index implements OnInit, AfterViewInit {
+  @ViewChild('gTabs') gTabs;
+
+  private yqwv: TabsComponent;
+  private viewMainHig: number;
+  private viewHig: number;
+  private url: string;
+  private navControl: boolean;
+  private navMini = false; // 导航栏缩小模式
+  private isExtend = false; // 子导航栏是否为展开模式
+  private userName;
+  // 导航栏数据结构
+  private fuck = [
+    {
+      'navName': '大佬',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' }
+      ]
+    },
+    {
+      'navName': '带带我',
+      'href': '/index/header'
+    },
+    {
+      'navName': '牛逼',
+      'sub': [
+        {
+          'subName': '子导航栏1',
+          'href': '/index/header'
+        },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Shit',
+      'href': '/index'
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+    {
+      'navName': 'Fuck',
+      'sub': [
+        { 'subName': '子导航栏1' },
+        { 'subName': '子导航栏2' },
+        { 'subName': '子导航栏3' },
+        { 'subName': '子导航栏4' },
+        { 'subName': '子导航栏5' },
+        { 'subName': '子导航栏6' },
+        { 'subName': '子导航栏7' },
+        { 'subName': '子导航栏8' },
+        { 'subName': '子导航栏9' }
+      ]
+    },
+  ];
+
+  gTabsHooks: TabsHooks = {
+    switch: (tar) => {
+      console.error(tar, 'Create');
+
+      if (tar.href === 'fuck')
+        return null;
+    },
+    create: (tar) => {
+      console.error(tar, 'Create');
+    },
+    close: (tar) => {
+      console.error(tar, 'Close');
+
+      if (this.gTabs.list.length === 1) {
+        return false;
+      }
+
+      return null;
+    }
+  };
+
+  constructor(
+    private searchService: SearchService,
+    private router: Router,
+    private elementRef: ElementRef,
+    private http: HttpClient,
+    private activatedRoute: ActivatedRoute,
+    private zone: NgZone,
+    private loadingService: LoadingService,
+    private navigationService: NavigationService,
+    private reloadService: ReloadService,
+    private logOutService: LogOutService,
+    private handler: Handler
+  ) {
+    this.handler.post(environment.handlerAPI, {
+      "type": "adminUsers",
+      "act": "Select_Detail",
+      "para": {
+        "params": {
+          "d_Alive": "",
+          "d_Aname": "",
+          "d_Auid": "",
+          "d_Auid_not": "",
+          "d_NewToken": "",
+          "d_Token": environment.token,
+          "s_Total_parameter": "Auid,Passwd,Aname,Alive,Aulid,adminUsersLevel,Token,Token_expiry,Token_IP"
+        }
+      }
+    }).then(res => this.handler.formatData(res))
+      .then(res => {
+
+        this.loadingService.hide.emit(null);
+        this.userName = environment.user.Aname = res.result[0].detail.Aname;
+        environment.user.Auid = res.result[0].detail.Auid;
+        environment.user.Aulid = res.result[0].detail.Aulid;
+      });
+  }
+
+  ngAfterViewInit() {
+    this.loadingService.show.emit(null);
+    // 实现子导航栏点击逻辑
+    this.navigationService.hasSub.subscribe((result?: boolean) => {
+      result === true ? this.isExtend = true : this.isExtend = false;
+      if (result === true) {
+        this.navMini = false;
+      }
+    });
+  }
+
+  ngOnInit() {
+    // swal({
+    //   confirmButtonColor: '#ff5700',
+    //   title: '可爱',
+    //   text: '想太阳',
+    //   type: 'success'
+    // });
+    // this.navigationService.navigationClick.subscribe((str?: any) => {
+    //
+    //   this.router.navigate([str], { replaceUrl: true });
+    // });
+
+    // this.formSelectorService.formSelected.subscribe((res) => console.log(res));
+
+    this.navigationService.resetHeight.subscribe((iscroll) => {
+      iscroll.refresh();
+    });
+  }
+
+  signOut() {
+    this.logOutService.logOut.emit(null);
+  }
+
+  reloadPage() {
+
+    this.url = this.router.url;
+
+    this.reloadService.routerReload.emit(this.url);
+  }
+
+  searchShow() {
+    this.searchService.searchShow.emit(null);
+  }
+
+  private choseDom(dom: string): any {
+    const selectedDom = this.elementRef.nativeElement.querySelector(dom);
+    return selectedDom;
+  }
+
+  private match(tar, id) {
+    let result;
+    tar.forEach((v?: any) => {
+      const identityMark = v.name.split('-');
+
+      if (identityMark.length === 1 && identityMark[0] === id) {
+        result = v;
+      }
+    });
+
+    return result;
+  }
+}
+
+@Component({
+  selector: 'form-demo',
+  templateUrl: './formDemo.html'
+})
+export class FromDemoComponent implements OnInit {
+
+  // 表单选择列表数据结构
+  private formList = [{ 'fuck1': '测试1' }, '测试2', 3, { 'fuck4': '测试4' }, '测试5', 6];
+
+  // 表单的placeholder
+  private placeholder = "我是placeholder";
+  private anotherPlaceholder = "另一个palceholder";
+
+  // 默认selected值
+  private shit = '下拉默认值';
+
+  private test = new TabsComponent();
+
+  // 编辑器
+  editorContent = "编辑器初始化";
+  elementId = "test";
+  // 编辑器配置
+  private option = {
+
+  };
+
+  constructor(private router: Router) {
+
+    router.events.subscribe(event => {
+      console.log(event);
+      if (event instanceof NavigationStart) {
+        // 验证token
+        // console.log('存储用户信息');
+      }
+    });
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+      console.log(this.editorContent, this.shit);
+    }, 5000);
+  }
+
+  testfuc1(event) {
+    console.log(event, 'fuc1');
+  }
+
+  testfuc2(event) {
+    console.log(event, 'fuc2');
+  }
+
+  editorFun(data) {
+    console.log(data);
+  }
+}
+
+@Component({
+  selector: 'list-demo',
+  templateUrl: './listDemo.html'
+})
+export class ListDemoComponent implements OnInit {
+  pageNum = 3;
+  totalPageNum: number;
+
+  listTest(num, callback) {
+    console.warn(num, callback);
+
+
+    callback();
+  }
+
+  ngOnInit() {
+    setTimeout(() => this.totalPageNum = 5, 1000);
+
+    // setTimeout(() => this.pageNum = 4, 2500);
+  }
+}

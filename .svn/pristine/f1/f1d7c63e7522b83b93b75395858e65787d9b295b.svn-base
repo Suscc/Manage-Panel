@@ -1,0 +1,170 @@
+import { Component, OnInit, Input, } from '@angular/core';
+
+// interface tabs {
+//   title: string,
+//   href: string,
+//   multiple?: boolean,
+//   original?: tabs[]
+// }
+class tabs {
+  title: string;
+  href: string;
+  multiple?: boolean;
+  original?: tabs;
+}
+
+@Component({
+  selector: 'g-tabs',
+  templateUrl: './tabs.component.html',
+  styleUrls: ['./tabs.component.less']
+})
+export class TabsComponent implements OnInit {
+  private list: Array<tabs> = [{
+    title: 'Fuck',
+    href: 'fuck'
+  }, {
+    title: 'Shit',
+    href: 'shit'
+  }];
+
+  @Input() run;
+
+  matchID = 'href'; // 标签身份根据
+  current: tabs; // 当前标签
+  previous: tabs; // 来源标签(上一个) 比如说新建标签页会跳转到新标签 那么起跳那个标签就相当于来源标签 新标签关闭后默认跳转来源标签
+  ngOnInit() {
+  }
+
+  // 设置为当前标签
+  setCurrent(tar: tabs, savePrevious = true) {
+    // 是否存贮来源标签 以供关闭标签页跳回到上一个来源标签
+    if (savePrevious) {
+      this.previous = this.current;
+    }
+    console.log(tar, '啥东西')
+    this.current = tar;
+
+    // 跳路由
+  }
+
+  // 是否为当前标签
+  isCurrent(tar: tabs) {
+    return this.current === tar;
+  }
+
+  // 创建标签
+  create(obj: tabs) {
+    let tar: tabs = this.list.find(v => v[this.matchID] === obj[this.matchID]); // 根据标签数据匹配现有标签看是否存在
+
+    // 如标签存在
+    if (tar) {
+      // 标签可以允许多开
+      if (tar.multiple) {
+        obj.multiple = true;
+
+        tar = obj;
+
+        this.list.push(obj);
+      } else if (this.current === tar) {
+        return;
+      }
+    } else {
+      tar = obj;
+
+      this.list.push(obj);
+    }
+
+    this.setCurrent(tar);
+
+    this.run(tar);
+  }
+
+  // 关闭标签
+  close(tar: string | number | object) {
+    if (this.list.length === 1) {
+      return;
+    }
+
+    let list: tabs[] = this.list, // 缓存上
+      identity: string = typeof tar === 'object' ? '' : this.matchID, // 标签身份认证
+      previous: tabs = this.previous, // 前一个标签
+      currentIndex: number, // 当前标签的下标
+      follow: tabs; // 后续跟进跳转进的标签
+
+    // 匹配
+    list.forEach((v, i) => {
+      if (v[identity] === tar) {
+        tar = i;
+      }
+
+      if (v === this.current) {
+        currentIndex = i;
+      }
+    });
+
+    if (tar === void (0)) {
+      return;
+    }
+
+    list.splice(<number>tar, 1); // 删除
+
+    // 是否从当前标签关闭
+    if (currentIndex !== tar) {
+      return;
+    }
+
+    // 是否有上一个被记录的起源标签
+    if (previous) {
+      console.log(previous, '不是吧')
+      follow = previous;
+    } else if (currentIndex === list.length) { // 当前标签是否为末尾标签
+      follow = list[list.length];
+    } else {
+      follow = list[<number>tar];
+    }
+
+    this.setCurrent(follow, false);
+
+    this.previous = null;
+  }
+
+  // 关闭全部
+  closeAll() {
+    this.list.splice(1);
+
+    this.setCurrent(this.list[0]);
+  }
+
+  // _self 跳转 不打开新标签 而是在当前标签跳转
+  self(data: tabs, isBack = true, tar?: string | tabs) {
+    let tarIndex; // 目标下标
+
+    // 如果指定目标去匹配 否则默认当前标签为目标
+    if (tar) {
+      tar = this.list.find(v => v.href === tar); // 匹配目标
+
+      // 如果没匹配到 退出
+      if (!tar) {
+        return;
+      }
+    } else {
+      tar = this.current;
+    }
+
+    // 是否可以返回
+    if (isBack) {
+      (<tabs>tar).original = Object.assign({}, tar);
+    }
+
+    Object.assign(tar, data);
+
+    // 跳路由 tar.
+  }
+
+  // 返回原始标签
+  back(tar = this.current) {
+    Object.assign(tar, tar.original);
+
+    // 跳路由 tar.
+  }
+}

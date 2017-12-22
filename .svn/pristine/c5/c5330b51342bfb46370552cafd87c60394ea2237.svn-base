@@ -1,0 +1,16 @@
+<nav class="c-nav" [ngClass]="{ 'c-nav-mini': miniMode }" [@miniMode]="miniMode">
+    <ul class="c-nav_main">
+        <li class="c-nav_item" *ngFor="let m of nav; i as index" (click)="navSlide(m);" [ngClass]="{'c-nav_item-active':activeNav === m && isClick}">
+            <div class="c-nav_wrap">
+                <span class="c-nav_icon">{{m.navName | navigationPipe}}</span>
+                <span class="c-nav_txt">{{ m.navName }}</span>
+                <span class="c-nav_arrow" *ngIf="m.sub"></span>
+            </div>
+            <ul *ngIf="activeNav === m && isClick"
+                [@visibility]="visibility"
+                (@visibility.done)="animationDone($event)">
+                <li class="c-nav_sub" *ngFor="let s of m.sub" (click)="subSlide(s); $event.stopPropagation()" [ngClass]="{'c-nav_item-active':subActiveNav === s}">{{ s.subName }}</li>
+            </ul>
+        </li>
+    </ul>
+</nav>

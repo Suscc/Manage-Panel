@@ -1,0 +1,171 @@
+<div class="index">
+    <header class="c-header">
+        <div class="c-header_infoArea">
+            大佬,欢迎您
+            <br>
+            <app-comm-weather></app-comm-weather>
+        </div>
+        <ul class="c-funArea c-funArea-header">
+            <li class="c-funArea_item" (click)="reloadPage()">
+                <span class="i-refresh c-funArea_icon"></span>
+                刷新
+            </li>
+            <li class="c-funArea_item">
+                <span class="i-clock c-funArea_icon"></span>
+                2017年10月16日 22:31:14
+            </li>
+            <li class="c-funArea_item" (click)="signOut()">
+                <span class="i-power c-funArea_icon"></span>
+                退出登录{{navMini}}
+            </li>
+        </ul>
+    </header>
+    <div class="index_wrap">
+        <app-nav-component [nav]="fuck"
+                           (mouseenter)="navControl = true"
+                           (mouseleave)="navControl = false"
+                           (ngClass)="{ 'c-nav-mini': navMini }"
+                           [miniMode]="navMini"
+        >
+        </app-nav-component>
+
+        <div class="index_main">
+            <div class="index_navControl"
+                [ngClass]="{ 'index_navControl-active': navControl && !isExtend }"
+                (mouseenter)="navControl = true"
+                (mouseleave)="navControl = false"
+                (click)="navMini = navMini ? false : true"
+            ></div>
+
+            <g-tabs></g-tabs>
+
+            <div class="index_viewArea">
+                <!-- <router-outlet class="if_view" style="opacity: 0;"></router-outlet> -->
+
+                <!-- <div class="table">
+                    <div class="row">
+                        <div class="col">Test</div>
+                        <div class="col">Test2</div>
+                    </div>
+                    <div class="row">
+                        <div class="test">
+                            <div class="col">Test</div>
+                            <div class="col">Test</div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <table class="c-table">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>学生姓名</th>
+                            <th>班级</th>
+                            <th>入学日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>233</td>
+                            <td>苏成闯</td>
+                            <td>2年23班</td>
+                            <td>
+                                <span class="c-table_multiple">盘古开天时</span>
+                            </td>
+                            <td>
+                                <button class="c-button" disabled>别闹</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>233</td>
+                            <td>苏成闯</td>
+                            <td>2年23班</td>
+                            <td>盘古开天时</td>
+                            <td>
+                                <button class="c-button">别闹</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="c-pageNum">
+                    <span class="c-pageNum_last"></span>
+                    <ul class="c-pageNum_main">
+                        <li class="c-pageNum_item">1</li>
+                        <li class="c-pageNum_item c-pageNum_item-active">2</li>
+                        <li class="c-pageNum_item">3</li>
+                    </ul>
+                    <span class="c-pageNum_next"></span>
+                </div>
+                <!-- <div class="l-viewWrap-detail">
+                    <div class="l-inputGroup">
+                        <label class="c-formWrap c-formWrap-bl">
+                            <span class="c-formWrap_name c-formWrap_name-important">门店名称：</span>
+                            <input class="c-input" type="text" placeholder="Test">
+                        </label>
+                        <label class="c-formWrap c-formWrap-bl">
+                            <span class="c-formWrap_name">名称：</span>
+                            <input class="c-input c-input-ext" type="text" placeholder="Test">
+                        </label>
+                        <label class="c-formWrap c-formWrap-bl">
+                            <span class="c-formWrap_name">名称：</span>
+                            <input class="c-input" type="text" placeholder="Test">
+                            <button class="c-button">Test</button>
+                        </label>
+                        <label class="c-formWrap c-formWrap-bl">
+                            <span class="c-formWrap_name">嗯嗯：</span>
+                            <div class="c-select">
+                                <input class="c-input" type="text" disabled placeholder="Test">
+                                <div class="c-select_control">
+                                    <span class="c-select_arr"></span>
+                                </div>
+                                <div class="c-select_optionWrap">
+                                    <ul>
+                                        <li class="c-select_option">
+                                            <span class="c-select_txt">Test</span>
+                                        </li>
+                                        <li class="c-select_option">Test1</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="c-formWrap c-formWrap-bl c-formWrap-multiple">
+                            <span class="c-formWrap_name c-formWrap_name-important">继续：</span>
+                            <div class="c-formWrap_bd c-formWrap_bd-textSpacAlign">
+                                <p>456852</p>
+                                <p>456852</p>
+                                <p>456852</p>
+                                <p>456852</p>
+                            </div>
+                        </label>
+                        <div class="c-formWrap c-formWrap-bl">
+                            <span class="c-formWrap_name c-formWrap_name-important">艳照：</span>
+                            <div class="c-formWrap_bd">
+                                <label class="c-fileArea">
+                                    选择文件 jpg / png
+                                    <input class="c-input" type="file" placeholder="Test">
+                                </label>
+                                <span class="c-controlPoint">✓</span>
+                                <span class="c-controlPoint">✓</span>
+                            </div>
+                        </div>
+                        <label class="c-formWrap c-formWrap-bl c-formWrap-multiple">
+                            <span class="c-formWrap_name c-formWrap_name-important">客户留言：</span>
+                            <textarea class="c-textarea" placeholder="Test"></textarea>
+                        </label>
+                    </div>
+
+                    <div style="display: block; margin-top: 20px;">
+                        <button class="c-button">提交</button>
+                        <button class="c-button">清空</button>
+                    </div>
+                </div> -->
+            </div>
+            <div class="index_copyright">Copyright © 2016 TOPU.net All rights reserved.</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <app-comm-search></app-comm-search> -->
+<app-comm-loading></app-comm-loading>

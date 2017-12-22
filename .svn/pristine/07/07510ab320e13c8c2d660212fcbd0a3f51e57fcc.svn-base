@@ -1,0 +1,111 @@
+// Lib
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, Component, OnInit } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { Login } from './login/login';
+import { IndexModule } from './index/index.module';
+import { Handler } from '@framework/Utils/Handler';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CacheInterceptor } from '@framework/Service/cache.service';
+import { DataIntercepter } from '@framework/Service/Data.service';
+import { environment } from 'environments/environment';
+
+@Component({
+  selector: 'app-root',
+  template: '<router-outlet></router-outlet>'
+})
+export class AppComponent implements OnInit {
+
+
+  ngOnInit(): void {
+    // const xhr = new XMLHttpRequest();
+    // let globalConfig;
+
+    // xhr.open('get', environment.domain, false);
+    // xhr.send();
+
+    // globalConfig = JSON.parse(xhr.responseText);
+
+    // // 取 Cookie 方法
+    // const getCookie = (key) => {
+    //   const cookie = document.cookie;
+    //   let start, end;
+
+    //   if (!cookie || (start = cookie.indexOf(key + '=')) < 0) {
+    //     return;
+    //   }
+
+    //   start = start + key.length + 1;
+    //   end = cookie.indexOf(';', start);
+
+    //   if (end < 0) {
+    //     end = cookie.length;
+    //   }
+
+    //   return cookie.substring(start, end);
+    // };
+
+    // let fr_userID = getCookie(globalConfig.projectName + '_adminUsers_token'); // Token
+    // const fr_username = decodeURI(getCookie(globalConfig.projectName + '_adminUsers_Auser')); // 用户名
+
+    // // 判断用户是刷新页面还是新登录
+    // /* 原理:
+    //     把本次登录的初始 Token 'sy_adminUsers_token' 存为一个新的 Cookie 叫做 'sy_old_userID'
+    //     如果用户刷新页面 'sy_adminUsers_token' 不会改变 两者为相等状态 那么取缓存的 Token
+    // */
+    // if (getCookie(globalConfig.projectName + '_old_userID') === fr_userID) {
+    //   fr_userID = getCookie(globalConfig.projectName + '_userID');
+    // }
+
+    // // 如果失去 Token 跳回登录页
+    // if (!fr_userID || fr_userID === 'undefined') {
+    //   location.replace('/login.html');
+    // }
+  }
+ }
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    Login,
+  ],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: 'index', loadChildren: '../app/index/index.module#IndexModule'
+      },
+      {
+        path: 'login', component: Login
+      },
+      {
+        path: '**', redirectTo: '/index', pathMatch: 'full'
+      },
+      {
+        path: '', redirectTo: '/index', pathMatch: 'full'
+      }
+    ]),
+
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    IndexModule
+  ],
+  providers: [
+    Handler,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DataIntercepter,
+      multi: true
+    }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

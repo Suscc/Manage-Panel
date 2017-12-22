@@ -1,0 +1,87 @@
+import { Injectable, OnInit, EventEmitter } from '@angular/core';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { LoadingService } from '../Component/Loading/loading.component';
+import { environment } from '../../environments/environment';
+import PromptLayer from '@framework/lib/PromptLayer';
+import { Utilities } from '@framework/Utils/Utli';
+
+export interface DataType {
+    [propName: string]: any;
+}
+
+abstract class HttpHandler {
+
+    abstract post (url: string, template: string): any;
+
+    abstract get (url: string): any;
+}
+
+@Injectable()
+export class Handler implements HttpHandler, OnInit {
+
+    private httpTemplate?: string;
+    private httpUrl: string;
+    private data: any;
+    public promise;
+    // public hasData = new EventEmitter<any>();
+
+
+    constructor(
+        private http?: HttpClient,
+        private loadingService?: LoadingService,
+        private router?: Router
+    ) {}
+
+    ngOnInit() {
+    }
+
+    public post (url: string, params?: any) {
+
+        this.promise = this.http
+                            .post<DataType>(url, {
+                                    "validate_k": "2",
+                                    "adminUsers": {
+                                        "Aname": environment.user.Aname,
+                                        "token": environment.token
+                                    },
+                                    "params": [params]
+                                }, {
+                                    headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+                                }).toPromise();
+
+        Utilities.log(`Handler 请求参数：${params.toString()}`);
+
+        return this.promise;
+    }
+    public get(url: string) {
+
+        return this.http.get<DataType>(url)
+            .toPromise();
+    }
+
+    // 格式化数据
+    public formatData(res?: any) {
+        // 隐藏loading
+        // this.loadingService.hide.emit(null);
+        localStorage.setItem('userToken', res.new_Token);
+
+        if (res.error === '47006') {
+            PromptLayer.show({
+                str: '登录失败。请稍后重试'
+            });
+            environment.isLogin = false;
+            localStorage.setItem('userToken', '');
+            // 登陆失败就调回到登录页面
+            this.router.navigate(['/login'], {replaceUrl: true});
+            return;
+        } else if (res.error !== 'SUCESS') {
+            // 出错
+        }
+        // Utilities.log(`Handler 请求参数：${params.toString()}`);
+        Utilities.log(`Handler 返回结果： ${res.toString()}`);
+
+        // this.hasData.emit(Promise.resolve(res));
+        return this.promise;
+    }
+}

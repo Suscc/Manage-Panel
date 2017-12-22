@@ -1,0 +1,11 @@
+<div class="c-pageNum" [ngClass]="class">
+  <div class="c-pageNum_begin" *ngIf="class['c-pageNum-startEnd']"></div>
+  <span class="c-pageNum_last"></span>
+  <ul class="c-pageNum_main">
+      <li class="c-pageNum_item">1</li>
+      <li class="c-pageNum_item c-pageNum_item-active">2</li>
+      <li class="c-pageNum_item">3</li>
+  </ul>
+  <span class="c-pageNum_next"></span>
+  <div class="c-pageNum_end" *ngIf="class['c-pageNum-startEnd']"></div>
+</div>

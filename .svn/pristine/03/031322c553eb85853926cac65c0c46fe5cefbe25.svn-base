@@ -1,0 +1,67 @@
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+
+@Component({
+    selector: 'app-comm-editor',
+    templateUrl: './editor.component.html'
+})
+export class EditorComponent implements OnInit {
+
+    public editor;
+    @Input() public editorContent?: string; // 编辑器内容
+    @Input() public editorOptions; // 编辑器配置选项
+    @Input() public readyFun: Function; // 编辑器构造完成函数
+    @Input() public changeFun: Function; // 编辑器内容改变内容的函数
+    @Output() textContent = new EventEmitter<any>();
+
+    constructor() {
+    }
+
+    // 编辑器失去焦点
+    onEditorBlured(quill) {
+        // 返回编辑器内容模型
+        this.textContent.emit(this.editorContent);
+    }
+
+    // 编辑器获取焦点
+    onEditorFocused(quill) {
+        this.textContent.emit(this.editorContent);
+    }
+
+    // 构建编辑器实例
+    onEditorCreated(quill) {
+        this.editor = quill;
+        if (this.readyFun !== void(0)) {
+
+            this.readyFun();
+        }
+    }
+
+    // 编辑器内容改变
+    onContentChanged({ quill, html, text }) {
+        if (this.changeFun !== void(0)) {
+
+            this.changeFun(quill, html, text);
+        }
+    }
+
+    ngOnInit() {
+        // 验证传入数据类型
+        if (!(this.editorOptions instanceof Object)) {
+            throw (new Error('传入的编辑器参数数据类型不对'));
+        }
+
+        if (this.readyFun !== void (0)) {
+
+            if (!(this.readyFun instanceof Function)) {
+                throw (new Error('传入的编辑器函数不是函数类型'));
+            }
+        }
+
+        if (this.changeFun !== void (0)) {
+
+            if (!(this.changeFun instanceof Function)) {
+                throw (new Error('传入的编辑器函数不是函数类型'));
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+import {
+  AfterViewInit, Component, ElementRef, forwardRef, Input, NgZone, OnDestroy,
+  ViewChild
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+declare let tinymce: any;
+declare let $: any;
+
+export const TINYMCE_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => EditorComponent),
+  multi: true
+};
+
+@Component({
+  selector: 'app-comm-editor',
+  templateUrl: './editor.component.html',
+  providers: [TINYMCE_VALUE_ACCESSOR]
+})
+export class EditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor {
+  @Input() elementId: String;
+
+  @ViewChild('textArea') textArea: ElementRef;
+
+  editor: any;
+
+  value: string;
+
+  onChange = (_: any) => { console.log(_); };
+
+  constructor(private zone: NgZone) { }
+
+  writeValue(value: any): void {
+    this.value = value;
+    if (this.editor) {
+      this.editor.setContent(value);
+    }
+  }
+
+  ngAfterViewInit() {
+    tinymce.init({
+      target: this.textArea.nativeElement,
+      height: 150,
+      plugins: ['link', 'paste', 'table', 'imagetools', 'print', 'preview', 'image'],
+      skin_url: 'assets/skins/lightgray',
+      setup: editor => {
+        this.editor = editor;
+        editor.on('keyup', () => {
+          const content = editor.getContent();
+          // console.log(this.zone.current.name);
+          this.zone.run(() => this.onChange(content));
+        });
+      }
+    });
+  }
+
+  registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
+
+  registerOnTouched(fn: () => void): void { }
+
+  ngOnDestroy() {
+    tinymce.remove(this.editor);
+  }
+}

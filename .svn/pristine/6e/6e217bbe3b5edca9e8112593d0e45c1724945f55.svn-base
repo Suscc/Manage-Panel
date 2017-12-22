@@ -1,0 +1,26 @@
+import { Component } from '@angular/core';
+
+
+
+@Component({
+  selector: 'g-tabs',
+  templateUrl: './tabs.component.html',
+  styleUrls: ['./tabs.component.less']
+})
+export class TabsComponent {
+  private list = [{
+    title: 'test',
+    href: 'test'
+  }];
+  //  private list = [
+  //    {
+  //      title: '草',
+  //      href: 'Fuck'
+  //    },
+  //    {
+  //      title: '你妹',
+  //      href: 'Shit'
+  //    }
+  // ];
+
+}

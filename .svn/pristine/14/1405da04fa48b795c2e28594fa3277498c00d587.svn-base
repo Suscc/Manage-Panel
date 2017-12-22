@@ -1,0 +1,54 @@
+// Lib
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, Component } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { Login } from './login/login';
+import { IndexModule } from './index/index.module';
+import { Handler } from '@framework/Utils/Handler';
+
+
+
+@Component({
+  selector: 'app-root',
+  template: '<router-outlet></router-outlet>'
+})
+export class AppComponent { }
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    Login,
+  ],
+  imports: [
+    RouterModule.forRoot([
+      {
+        path: 'index', loadChildren: '../app/index/index.module#IndexModule'
+      },
+      {
+        path: 'login', component: Login
+      },
+      {
+        path: '**', redirectTo: '/index', pathMatch: 'full'
+      },
+      {
+        path: '', redirectTo: '/index', pathMatch: 'full'
+      }
+    ]),
+
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    IndexModule
+  ],
+  providers: [
+    Handler,
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
