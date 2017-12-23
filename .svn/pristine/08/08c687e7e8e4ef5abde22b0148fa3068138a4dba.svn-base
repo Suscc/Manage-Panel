@@ -49,6 +49,8 @@ export class EventQueue {
 
     private run() {
 
+        console.log('request', this.token);
+
         this.isRunning = false;
         this.loadingService.show.emit(null);
 

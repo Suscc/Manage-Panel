@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { TokenService } from '@framework/Service/token.service';
 import PromptLayer from '@framework/lib/PromptLayer';
-import { LoadingService } from '@framework/Component/Loading/loading.component';
 
 interface DataType {
     [propName: string]: any;
@@ -23,7 +22,9 @@ export class EventQueue {
     private isRunning;
     private loop = false; // 队列循环
 
-    constructor(private http?: HttpClient, private loadingService?: LoadingService) {}
+    constructor(private http?: HttpClient) {
+        console.log(11111);
+    }
 
     /*
         url: 接口地址,
@@ -49,8 +50,9 @@ export class EventQueue {
 
     private run() {
 
+        console.log('request', this.token);
+
         this.isRunning = false;
-        this.loadingService.show.emit(null);
 
         const queueItem = this.queue.shift();
         if (queueItem.method === 'post' || queueItem.method === 'Post' || queueItem.method === 'POST') {
@@ -71,8 +73,7 @@ export class EventQueue {
 
                     this.isRunning = true;
 
-                    console.log(`请求参数：${JSON.stringify(queueItem.task, null, 2)}`);
-                    console.log(`返回结果：${JSON.stringify(res, null, 2)}`);
+                    console.log(res);
 
                     localStorage.setItem('userToken', res.new_Token);
                     this.token = res.new_Token;
@@ -100,14 +101,12 @@ export class EventQueue {
 
                         if (this.queue.length !== 0 && !this.isRunning && !this.pause) {
 
-                            console.log(`任务队列还有： ${this.queue.length}个任务`);
+                            console.log('调用了： ',    this.queue.length);
                             // Promise.resolve(() => setTimeout(() => this.run()));
                             setTimeout(() => this.run());
                         }else {
 
                             this.loop = false;
-                            // 隐藏loading动画
-                            this.loadingService.hide.emit(null);
                         }
                     });
                 });

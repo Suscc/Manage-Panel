@@ -51,9 +51,9 @@ export class CommHeaderComponent implements OnInit {
             console.log('第四个回调函数执行了');
         };
 
-        for (let i = 0; i < 3; i++) {
-            this.eventQueue.push(environment.handlerAPI, Advertise.list(), 'post', test2);
-        }
+        this.eventQueue.push(environment.handlerAPI, Advertise.list(), 'post', test2);
+        this.eventQueue.push(environment.handlerAPI, Advertise.list(), 'post', test3);
+        this.eventQueue.push(environment.handlerAPI, Advertise.list(), 'post', test4);
 
         // setTimeout(() => this.eventQueue.push(environment.handlerAPI, Advertise.list(), 'post', test2), 1000);
     }
