@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Login } from './login/login';
 import { IndexModule } from './index/index.module';
+import { Handler } from '@framework/Utils/Handler';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CacheInterceptor } from '@framework/Service/cache.service';
 import { DataIntercepter } from '@framework/Service/Data.service';
@@ -55,6 +56,7 @@ export class AppComponent implements OnInit {
     IndexModule
   ],
   providers: [
+    Handler,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,
@@ -69,4 +71,3 @@ export class AppComponent implements OnInit {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

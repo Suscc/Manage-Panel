@@ -13,5 +13,6 @@ export const environment = {
     Aname: '',
     Auid: '',
     Aulid: '',
-  }
+  },
+  debug: true
 };

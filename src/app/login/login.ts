@@ -77,19 +77,9 @@ export class Login implements OnInit, AfterViewInit {
         this.loadingService.hide.emit(null);
         // 登陆失败
         if (d === '-1') {
-          PromptLayer.show({
-            str: '用户名密码错误请您仔细核实',
-            callback_close: () => {
-              // $picCode.refresh_pic();
-
-              this.user.userPassword = '';
-            }
-          });
-
+          layer.msg('用户名密码错误请您仔细核实', () => this.user.userPassword = '');
           return;
         }
-
-        console.log('login:', d);
 
         localStorage.setItem('userToken', d);
         environment.user.Aname = this.user.userName;

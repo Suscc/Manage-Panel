@@ -252,6 +252,8 @@ export class Index implements OnInit, AfterViewInit {
                          AdminUsers.detail({ "d_Token": localStorage.getItem('userToken') }),
                          'post',
                         (res) => {
+
+                          this.loadingService.hide.emit(null);
                           this.userName = environment.user.Aname = res.result[0].detail.Aname;
                           environment.user.Auid = res.result[0].detail.Auid;
                           environment.user.Aulid = res.result[0].detail.Aulid;

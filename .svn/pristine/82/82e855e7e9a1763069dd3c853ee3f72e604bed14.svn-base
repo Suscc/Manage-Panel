@@ -34,10 +34,7 @@ import { ScrollDirective } from '@framework/Directive/scroll.directive';
 
 // 服务
 import { AuthService } from '@framework/Service/auth.service';
-import { TokenService } from '@framework/Service/token.service';
 import { ReloadService, LogOutService } from '@framework/Service/control.service.ts';
-import { EventQueue } from '@framework/Utils/EventQueue';
-import { DebugService } from '@framework/Service/debug.service';
 
 
 
@@ -74,11 +71,7 @@ import { DebugService } from '@framework/Service/debug.service';
     AuthService,
     ReloadService,
     LogOutService,
-    TokenService,
-    EventQueue,
-    LogOutService,
-    GTabServer,
-    DebugService
+    GTabServer
   ],
   exports: [
     LoadingComponent,
@@ -86,5 +79,4 @@ import { DebugService } from '@framework/Service/debug.service';
     FormsModule,
   ]
 })
-export class IndexModule {
-}
+export class IndexModule { }

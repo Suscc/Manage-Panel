@@ -37,7 +37,6 @@ import { AuthService } from '@framework/Service/auth.service';
 import { TokenService } from '@framework/Service/token.service';
 import { ReloadService, LogOutService } from '@framework/Service/control.service.ts';
 import { EventQueue } from '@framework/Utils/EventQueue';
-import { DebugService } from '@framework/Service/debug.service';
 
 
 
@@ -77,8 +76,7 @@ import { DebugService } from '@framework/Service/debug.service';
     TokenService,
     EventQueue,
     LogOutService,
-    GTabServer,
-    DebugService
+    GTabServer
   ],
   exports: [
     LoadingComponent,

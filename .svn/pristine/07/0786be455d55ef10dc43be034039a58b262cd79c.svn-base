@@ -1,6 +1,6 @@
 import {
   Component, ElementRef, ViewChild, SimpleChanges, Input, NgModule, NgZone, Injectable,
-  OnInit, AfterViewInit, AfterContentInit, OnChanges, HostBinding, HostListener,
+  OnInit, AfterViewInit, AfterContentInit, OnChanges,
   Pipe, PipeTransform, EventEmitter
 } from '@angular/core';
 import { Router, RoutesRecognized, NavigationEnd, ActivatedRoute, Routes, RouterModule } from '@angular/router';
@@ -14,15 +14,8 @@ import { NavigationService } from '@framework/Component/Navigation/navigation.co
 import { TabsComponent, TabsHooks } from '@framework/Component/Tabs/tabs.component';
 import { FormSelectorComponent } from '@framework/Component/FormSelector/selector.component';
 import { ReloadService, LogOutService } from '@framework/Service/control.service.ts';
-import { TokenService } from '@framework/Service/token.service';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/pairwise';
 
 import swal from 'sweetalert2';
-import { environment } from 'environments/environment';
-import { EventQueue } from '@framework/Utils/EventQueue';
-import AdminUsers from '@app/models/adminUsers';
-import Advertise from '@app/models/advertise';
 
 
 
@@ -38,14 +31,12 @@ export class GTabServer {
 @Component({
   selector: 'index',
   templateUrl: './index.html',
-  styleUrls: ['./index.less'],
-  providers: [EventQueue]
+  styleUrls: ['./index.less']
 })
 
 export class Index implements OnInit, AfterViewInit {
   @ViewChild('gTabs') gTabs;
 
-  private userName: string;
   private yqwv: TabsComponent;
   private viewMainHig: number;
   private viewHig: number;
@@ -245,18 +236,9 @@ export class Index implements OnInit, AfterViewInit {
     private navigationService: NavigationService,
     private reloadService: ReloadService,
     private logOutService: LogOutService,
-    private eventQueue: EventQueue,
     private gTab: GTabServer
   ) {
-    this.eventQueue.push(environment.handlerAPI,
-                         AdminUsers.detail({ "d_Token": localStorage.getItem('userToken') }),
-                         'post',
-                        (res) => {
-                          this.userName = environment.user.Aname = res.result[0].detail.Aname;
-                          environment.user.Auid = res.result[0].detail.Auid;
-                          environment.user.Aulid = res.result[0].detail.Aulid;
-                          console.log('第一个回调函数执行了');
-                        });
+    this.router.events.subscribe((url: any) => { });
   }
 
   ngAfterViewInit() {
