@@ -232,9 +232,8 @@ export class Index implements OnInit, AfterViewInit {
     // 切换时
     switch: (tar) => {
       // 如果切换的目标标签的 href 属性为 fuck 切换后不将其记录为来源标签
-      if (tar.href === 'fuck') {
+      if (tar.href === 'fuck')
         return null;
-      }
     },
     // 创建时
     create: (tar) => {
@@ -292,11 +291,13 @@ export class Index implements OnInit, AfterViewInit {
       AdminUsers.detail({ "d_Token": localStorage.getItem('userToken') }),
       'post',
       (res) => {
-                          this.userName = environment.user.Aname = res.result[0].detail.Aname;
-                          environment.user.Auid = res.result[0].detail.Auid;
-                          environment.user.Aulid = res.result[0].detail.Aulid;
-                          console.log('第一个回调函数执行了');
-                        });
+
+        this.loadingService.hide.emit(null);
+        this.userName = environment.user.Aname = res.result[0].detail.Aname;
+        environment.user.Auid = res.result[0].detail.Auid;
+        environment.user.Aulid = res.result[0].detail.Aulid;
+        console.log('第一个回调函数执行了');
+      });
   }
 
   ngAfterViewInit() {

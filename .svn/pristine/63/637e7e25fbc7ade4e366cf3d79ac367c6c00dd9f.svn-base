@@ -1,32 +1,19 @@
-// Lib
+import { NgModule, Component, } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component, OnInit } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { Login } from './login/login';
-import { IndexModule } from './index/index.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AppComponent } from './app.component';
+
+import { IndexModule } from '../index.module';
+
+import { Login } from '@app/login/login';
+
 import { CacheInterceptor } from '@framework/Service/cache.service';
 import { DataIntercepter } from '@framework/Service/Data.service';
-import { environment } from 'environments/environment';
 
-import swal from 'sweetalert2';
-
-
-
-@Component({
-  selector: 'app-root',
-  template: '<router-outlet></router-outlet>'
-})
-export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    swal.setDefaults({
-      confirmButtonColor: '#ff5700'
-    });
-  }
-}
 
 @NgModule({
   declarations: [
@@ -36,7 +23,7 @@ export class AppComponent implements OnInit {
   imports: [
     RouterModule.forRoot([
       {
-        path: 'index', loadChildren: '../app/index/index.module#IndexModule'
+        path: 'index', loadChildren: '../index.module#IndexModule'
       },
       {
         path: 'login', component: Login
@@ -69,4 +56,3 @@ export class AppComponent implements OnInit {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
